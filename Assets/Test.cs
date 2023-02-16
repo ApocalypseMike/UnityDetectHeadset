@@ -1,21 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 
 public class Test : MonoBehaviour {
-
-	bool headsetConnected = false;
-
-	void Start () {
-
-		headsetConnected = DetectHeadset.Detect();
-	}
+    private bool headsetConnected;
 	
-	void OnGUI() {
+    [SerializeField] private string BaseMessage = "Headset connected: ";
+    [SerializeField] private Text MessageText;
+    [SerializeField] private Button DetectButton;
 
-		GUI.Label(new Rect(10, Screen.height - 40, 500, 50), "headset connected: " + headsetConnected.ToString());
+    private void Start () {
+        headsetConnected = DetectHeadset.Detect();
+        DetectButton.onClick.AddListener(() => headsetConnected = DetectHeadset.Detect());
+    }
 
-		if (GUI.Button(new Rect(Screen.width - 150, 150, 150, 50), "Detect"))
-			headsetConnected = DetectHeadset.Detect();
-
-	}
+    private void Update()
+    {
+        MessageText.text = BaseMessage + headsetConnected;
+    }
 }
